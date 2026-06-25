@@ -1,0 +1,165 @@
+[15:51:33.299] [INFO] [36mInitializing Storybook[39m
+[15:51:33.663] [DEBUG] Getting package.json info for C:/Users/gabri/Desktop/Projetos/petra-agregados/package.json...
+[15:51:33.663] [INFO] Package manager: Yarn Berry
+[15:51:33.668] [DEBUG] Getting CLI versions from NPM for storybook...
+[15:51:33.668] [DEBUG] Executing command: yarn npm info storybook --fields version --json
+[15:51:33.669] [DEBUG] Resolved command variation: yarn.cmd
+[15:51:34.887] [INFO] Adding Storybook version 10.4.6 to your project
+[15:51:34.887] [DEBUG] Executing command: yarn config get npmMinimalAgeGate
+[15:51:34.888] [DEBUG] Resolved command variation: yarn.cmd
+[15:51:35.119] [DEBUG] Executing command: yarn config get npmPreapprovedPackages
+[15:51:35.119] [DEBUG] Resolved command variation: yarn.cmd
+[15:51:35.347] [DEBUG] Executing command: yarn npm info storybook --fields time --json
+[15:51:35.347] [DEBUG] Resolved command variation: yarn.cmd
+[15:51:36.515] [DEBUG] Using cached package.json for C:\Users\gabri\Desktop\Projetos\petra-agregados\package.json...
+[15:51:36.516] [DEBUG] Project type detected: nextjs
+[15:51:36.516] [DEBUG] Using cached package.json for C:\Users\gabri\Desktop\Projetos\petra-agregados\package.json...
+[15:51:36.527] [INFO] Framework detected: nextjs-vite
+[15:51:36.528] [DEBUG] Getting installed version for vitest...
+[15:51:36.530] [DEBUG] Executing command: yarn info --name-only --recursive vitest
+[15:51:36.531] [DEBUG] Resolved command variation: yarn.cmd
+[15:51:36.835] [DEBUG] Error finding installations for vitest: ExecaError: Command failed with exit code 1: yarn.cmd info --name-only --recursive vitest
+
+Usage Error: No package matched your request
+
+$ yarn info [-A,--all] [-R,--recursive] [-X,--extra #0] [--cache] [--dependents] [--manifest] [--name-only] [--virtuals] [--json] ...
+[15:51:36.835] [DEBUG] No installations found for vitest
+[15:51:36.835] [DEBUG] Getting installed version for msw...
+[15:51:36.835] [DEBUG] Executing command: yarn info --name-only --recursive msw
+[15:51:36.835] [DEBUG] Resolved command variation: yarn.cmd
+[15:51:37.088] [DEBUG] Error finding installations for msw: ExecaError: Command failed with exit code 1: yarn.cmd info --name-only --recursive msw
+
+Usage Error: No package matched your request
+
+$ yarn info [-A,--all] [-R,--recursive] [-X,--extra #0] [--cache] [--dependents] [--manifest] [--name-only] [--virtuals] [--json] ...
+[15:51:37.088] [DEBUG] No installations found for msw
+[15:51:45.619] [PROMPT] New to Storybook? {"choice":true}
+[15:51:45.620] [INFO] Storybook collects completely anonymous usage telemetry. We use it to shape Storybook's roadmap and prioritize features. You can learn more, including how to opt out, at https://storybook.js.org/telemetry
+[15:51:59.369] [PROMPT] Would you like to install AI features (MCP addon and prompt suggestions)? {"choice":true}
+[15:51:59.852] [INFO] base-generator-task-start: Generating Storybook configuration
+[15:51:59.852] [DEBUG] Using cached package.json for C:\Users\gabri\Desktop\Projetos\petra-agregados\package.json...
+[15:51:59.852] [DEBUG] Using cached package.json for C:\Users\gabri\Desktop\Projetos\petra-agregados\package.json...
+[15:51:59.852] [DEBUG] Using cached package.json for C:\Users\gabri\Desktop\Projetos\petra-agregados\package.json...
+[15:51:59.852] [INFO] base-generator-task: - Configuring ESLint plugin
+[15:51:59.853] [DEBUG] Detected flat config at C:\Users\gabri\Desktop\Projetos\petra-agregados\eslint.config.mjs
+[15:51:59.876] [DEBUG] Using cached version for storybook...
+[15:51:59.876] [DEBUG] Getting CLI versions from NPM for @storybook/nextjs-vite...
+[15:51:59.876] [DEBUG] Executing command: yarn npm info @storybook/nextjs-vite --fields version --json
+[15:51:59.876] [DEBUG] Resolved command variation: yarn.cmd
+[15:51:59.885] [DEBUG] Getting CLI versions from NPM for @chromatic-com/storybook...
+[15:51:59.885] [DEBUG] Executing command: yarn npm info @chromatic-com/storybook --fields version --json
+[15:51:59.885] [DEBUG] Resolved command variation: yarn.cmd
+[15:51:59.897] [DEBUG] Getting CLI versions from NPM for @storybook/addon-vitest...
+[15:51:59.897] [DEBUG] Executing command: yarn npm info @storybook/addon-vitest --fields version --json
+[15:51:59.897] [DEBUG] Resolved command variation: yarn.cmd
+[15:51:59.910] [DEBUG] Getting CLI versions from NPM for @storybook/addon-a11y...
+[15:51:59.910] [DEBUG] Executing command: yarn npm info @storybook/addon-a11y --fields version --json
+[15:51:59.910] [DEBUG] Resolved command variation: yarn.cmd
+[15:51:59.925] [DEBUG] Getting CLI versions from NPM for @storybook/addon-docs...
+[15:51:59.925] [DEBUG] Executing command: yarn npm info @storybook/addon-docs --fields version --json
+[15:51:59.926] [DEBUG] Resolved command variation: yarn.cmd
+[15:51:59.942] [DEBUG] Getting CLI versions from NPM for @storybook/addon-mcp...
+[15:51:59.942] [DEBUG] Executing command: yarn npm info @storybook/addon-mcp --fields version --json
+[15:51:59.942] [DEBUG] Resolved command variation: yarn.cmd
+[15:51:59.959] [DEBUG] Getting CLI versions from NPM for vite...
+[15:51:59.959] [DEBUG] Executing command: yarn npm info vite --fields version --json
+[15:51:59.959] [DEBUG] Resolved command variation: yarn.cmd
+[15:51:59.970] [DEBUG] Getting CLI versions from NPM for eslint-plugin-storybook...
+[15:51:59.970] [DEBUG] Executing command: yarn npm info eslint-plugin-storybook --fields version --json
+[15:51:59.970] [DEBUG] Resolved command variation: yarn.cmd
+[15:52:01.825] [INFO] base-generator-task: - Configuring main.ts
+[15:52:01.828] [INFO] base-generator-task: - Configuring preview.ts
+[15:52:01.830] [INFO] base-generator-task: - Adding Storybook command to package.json
+[15:52:01.831] [DEBUG] Getting package.json info for C:/Users/gabri/Desktop/Projetos/petra-agregados/package.json...
+[15:52:01.831] [DEBUG] Using cached package.json for C:\Users\gabri\Desktop\Projetos\petra-agregados\package.json...
+[15:52:01.831] [DEBUG] Using cached package.json for C:\Users\gabri\Desktop\Projetos\petra-agregados\package.json...
+[15:52:01.833] [INFO] base-generator-task: - Copying framework templates
+[15:52:01.893] [DEBUG] Executing command: yarn config get npmRegistryServer
+[15:52:01.893] [DEBUG] Resolved command variation: yarn.cmd
+[15:52:02.834] [INFO] base-generator-task-success: Storybook configuration generated
+[15:52:02.835] [DEBUG] Using cached package.json for C:\Users\gabri\Desktop\Projetos\petra-agregados\package.json...
+[15:52:02.835] [DEBUG] Using cached installed version for vitest...
+[15:52:02.835] [DEBUG] Getting installed version for @vitest/coverage-v8...
+[15:52:02.835] [DEBUG] Executing command: yarn info --name-only --recursive @vitest/coverage-v8
+[15:52:02.835] [DEBUG] Resolved command variation: yarn.cmd
+[15:52:03.334] [DEBUG] Error finding installations for @vitest/coverage-v8: ExecaError: Command failed with exit code 1: yarn.cmd info --name-only --recursive "@vitest/coverage-v8"
+
+Usage Error: No package matched your request
+
+$ yarn info [-A,--all] [-R,--recursive] [-X,--extra #0] [--cache] [--dependents] [--manifest] [--name-only] [--virtuals] [--json] ...
+[15:52:03.334] [DEBUG] No installations found for @vitest/coverage-v8
+[15:52:03.334] [DEBUG] Getting installed version for @vitest/coverage-istanbul...
+[15:52:03.334] [DEBUG] Executing command: yarn info --name-only --recursive @vitest/coverage-istanbul
+[15:52:03.334] [DEBUG] Resolved command variation: yarn.cmd
+[15:52:03.604] [DEBUG] Error finding installations for @vitest/coverage-istanbul: ExecaError: Command failed with exit code 1: yarn.cmd info --name-only --recursive "@vitest/coverage-istanbul"
+
+Usage Error: No package matched your request
+
+$ yarn info [-A,--all] [-R,--recursive] [-X,--extra #0] [--cache] [--dependents] [--manifest] [--name-only] [--virtuals] [--json] ...
+[15:52:03.604] [DEBUG] No installations found for @vitest/coverage-istanbul
+[15:52:03.605] [INFO] adding-dependencies-task-start: Adding dependencies to package.json
+[15:52:03.605] [INFO] adding-dependencies-task: Adding devDependencies:
+- storybook@^10.4.6
+- @storybook/nextjs-vite@^10.4.6
+- @chromatic-com/storybook@^5.2.1
+- @storybook/addon-vitest@^10.4.6
+- @storybook/addon-a11y@^10.4.6
+- @storybook/addon-docs@^10.4.6
+- @storybook/addon-mcp@^0.6.0
+- vite@^8.1.0
+- eslint-plugin-storybook@^10.4.6
+- vitest
+- playwright
+- @vitest/browser-playwright
+- @vitest/coverage-v8
+[15:52:03.605] [DEBUG] Using cached package.json for C:\Users\gabri\Desktop\Projetos\petra-agregados\package.json...
+[15:52:03.605] [DEBUG] Using cached version for storybook...
+[15:52:03.606] [DEBUG] Using cached version for @storybook/nextjs-vite...
+[15:52:03.606] [DEBUG] Using cached version for @chromatic-com/storybook...
+[15:52:03.606] [DEBUG] Using cached version for @storybook/addon-vitest...
+[15:52:03.606] [DEBUG] Using cached version for @storybook/addon-a11y...
+[15:52:03.606] [DEBUG] Using cached version for @storybook/addon-docs...
+[15:52:03.606] [DEBUG] Using cached version for @storybook/addon-mcp...
+[15:52:03.606] [DEBUG] Using cached version for vite...
+[15:52:03.606] [DEBUG] Using cached version for eslint-plugin-storybook...
+[15:52:03.606] [DEBUG] Getting CLI versions from NPM for vitest...
+[15:52:03.606] [DEBUG] Executing command: yarn npm info vitest --fields version --json
+[15:52:03.606] [DEBUG] Resolved command variation: yarn.cmd
+[15:52:04.087] [DEBUG] Getting CLI versions from NPM for playwright...
+[15:52:04.087] [DEBUG] Executing command: yarn npm info playwright --fields version --json
+[15:52:04.087] [DEBUG] Resolved command variation: yarn.cmd
+[15:52:04.998] [DEBUG] Getting CLI versions from NPM for @vitest/browser-playwright...
+[15:52:04.998] [DEBUG] Executing command: yarn npm info @vitest/browser-playwright --fields version --json
+[15:52:04.998] [DEBUG] Resolved command variation: yarn.cmd
+[15:52:05.433] [DEBUG] Getting CLI versions from NPM for @vitest/coverage-v8...
+[15:52:05.433] [DEBUG] Executing command: yarn npm info @vitest/coverage-v8 --fields version --json
+[15:52:05.433] [DEBUG] Resolved command variation: yarn.cmd
+[15:52:05.934] [DEBUG] Using cached package.json for C:\Users\gabri\Desktop\Projetos\petra-agregados\package.json...
+[15:52:05.935] [INFO] adding-dependencies-task-success: Dependencies added to package.json
+[15:52:05.935] [INFO] Installing dependencies...
+[15:52:05.936] [INFO] install-dependencies-spinner-start: Installing dependencies...
+[15:52:05.936] [DEBUG] Executing command: yarn install
+[15:52:05.937] [DEBUG] Resolved command variation: yarn.cmd
+[15:52:06.282] [INFO] Installing dependencies...: ➤ YN0000: · Yarn 4.17.0
+
+[15:52:06.282] [INFO] install-dependencies-spinner: Installing dependencies...: ➤ YN0000: · Yarn 4.17.0
+[15:52:06.286] [INFO] Installing dependencies...: ➤ YN0000: ┌ Resolution step
+
+[15:52:06.286] [INFO] install-dependencies-spinner: Installing dependencies...: ➤ YN0000: ┌ Resolution st
+[15:52:08.364] [INFO] Installing dependencies...: ➤ YN0016: │ playwright@npm:^1.61.1: All versions satisfying "^1.61.1" are quarantined
+
+[15:52:08.364] [INFO] install-dependencies-spinner: Installing dependencies...: ➤ YN0016: │ playwright@np
+[15:52:08.364] [INFO] Installing dependencies...: ➤ YN0000: └ Completed in 2s 77ms
+
+[15:52:08.364] [INFO] install-dependencies-spinner: Installing dependencies...: ➤ YN0000: └ Completed in 
+[15:52:08.364] [INFO] Installing dependencies...: ➤ YN0000: · Failed with errors in 2s 83ms
+
+[15:52:08.364] [INFO] install-dependencies-spinner: Installing dependencies...: ➤ YN0000: · Failed with e
+[15:52:08.884] [ERROR] Installation of dependencies failed! {"error":"ExecaError: Command failed with exit code 1: yarn.cmd install\n\n➤ YN0000: · Yarn 4.17.0\n➤ YN0000: ┌ Resolution step\n➤ YN0016: │ playwright@npm:^1.61.1: All versions satisfying \"^1.61.1\" are quarantined\n➤ YN0000: └ Completed in 2s 77ms\n➤ YN0000: · Failed with errors in 2s 83ms\n    at getFinalError (file:///C:/Users/gabri/AppData/Local/Temp/xfs-4fde0c39/dlx-30516/node_modules/storybook/dist/_node-chunks/chunk-6U2XPXR7.js:11529:10)\n    at makeError (file:///C:/Users/gabri/AppData/Local/Temp/xfs-4fde0c39/dlx-30516/node_modules/storybook/dist/_node-chunks/chunk-6U2XPXR7.js:13065:15)\n    at getAsyncResult (file:///C:/Users/gabri/AppData/Local/Temp/xfs-4fde0c39/dlx-30516/node_modules/storybook/dist/_node-chunks/chunk-6U2XPXR7.js:15711:158)\n    at handlePromise (file:///C:/Users/gabri/AppData/Local/Temp/xfs-4fde0c39/dlx-30516/node_modules/storybook/dist/_node-chunks/chunk-6U2XPXR7.js:15697:162)\n    at async Object.executeTaskWithSpinner (file:///C:/Users/gabri/AppData/Local/Temp/xfs-4fde0c39/dlx-30516/node_modules/storybook/dist/_node-chunks/chunk-YBD2A4LF.js:3683:11)\n    at async Yarn2Proxy.installDependencies (file:///C:/Users/gabri/AppData/Local/Temp/xfs-4fde0c39/dlx-30516/node_modules/storybook/dist/_node-chunks/chunk-6U2XPXR7.js:9679:5)\n    at async Yarn2Proxy.installDependencies (file:///C:/Users/gabri/AppData/Local/Temp/xfs-4fde0c39/dlx-30516/node_modules/storybook/dist/_node-chunks/chunk-6U2XPXR7.js:17201:7)\n    at async DependencyInstallationCommand.execute (file:///C:/Users/gabri/AppData/Local/Temp/xfs-4fde0c39/dlx-30516/node_modules/create-storybook/dist/_node-chunks/chunk-SGWNRTQ7.js:2301:9)\n    at async doInitiate (file:///C:/Users/gabri/AppData/Local/Temp/xfs-4fde0c39/dlx-30516/node_modules/create-storybook/dist/_node-chunks/chunk-SGWNRTQ7.js:3535:38)\n    at async file:///C:/Users/gabri/AppData/Local/Temp/xfs-4fde0c39/dlx-30516/node_modules/create-storybook/dist/_node-chunks/chunk-SGWNRTQ7.js:3590:20"}
+[15:52:08.884] [ERROR] install-dependencies-spinner-error: [31mInstallation of dependencies failed![39m
+[15:52:08.885] [ERROR] yarn blocked package installation because your project uses npmMinimalAgeGate.
+
+Failed package: playwright@^1.61.1
+
+To fix this, either wait for the configured age window to pass and rerun the command, or add the blocked packages to yarn's npmPreapprovedPackages setting.
+[15:52:24.238] [PROMPT] Would you like to send anonymous crash reports to improve Storybook and fix bugs faster? {"choice":false}
