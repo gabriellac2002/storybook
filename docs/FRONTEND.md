@@ -112,13 +112,56 @@ useEffect(() => { ... }, [config]);
 useEffect(() => { ... }, [options]);
 ```
 
-## Styling
+## shadcn/ui — use first, always
 
-- Prefer semantic color tokens: `bg-background`, `text-foreground`, `text-muted-foreground`,
-  `border-border`, `bg-primary`, `text-destructive`. Avoid hardcoded colors like `bg-white` or
-  `text-gray-500`.
-- `components/ui/` is managed by the shadcn CLI — do not edit those files. Create wrappers if you
-  need custom behavior.
+`components/ui/` ships pre-built, accessible, theme-aware primitives. **Always reach for them before
+writing a raw HTML element.** Check the table below before using `<button>`, `<input>`, `<select>`,
+etc.
+
+| Need | Use |
+|---|---|
+| Button, icon-button | `Button` |
+| Text input, number input | `Input` |
+| Label tied to an input | `Label` |
+| Multiline text | `Textarea` |
+| Dropdown selector | `Select` |
+| Toggle on/off | `Switch` |
+| Single checkbox | `Checkbox` |
+| Mutually exclusive options | `RadioGroup` |
+| Content card | `Card`, `CardHeader`, `CardContent` |
+| Status chip | `Badge` |
+| Modal / confirmation | `Dialog` |
+| Slide-in panel | `Sheet` |
+| Dismissable banner | `Alert` |
+| Hover hint | `Tooltip` |
+| Context menu | `DropdownMenu` |
+| Loading placeholder | `Skeleton` |
+| Determinate progress | `Progress` |
+| Scrollable area | `ScrollArea` |
+| Anchor menu | `Popover` |
+| Data table | `Table` |
+| Searchable list | `Command` |
+| Toast notifications | `Sonner` |
+| Grouped pages | `Tabs` |
+| Divider | `Separator` |
+| User avatar | `Avatar` |
+
+**No exceptions for interactive elements.** `Button` accepts any `className` — `h-full flex-col gap-2 text-3xl font-black` works fine. There is no reason to use a raw `<button>`.
+
+Non-interactive structural elements (`div`, `span`, `p`, `section`, `ul/li`) have no shadcn equivalent — use HTML/JSX directly for those.
+
+**Never edit `components/ui/`** — create a wrapper in `components/` instead:
+
+```tsx
+// components/tablet/DestructiveButton.tsx — wrapper, not an edit to ui/button
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+
+export const DestructiveButton: React.FC<React.ComponentProps<typeof Button>> = ({ className, ...props }) => (
+  <Button variant="destructive" className={cn('font-black uppercase tracking-wider', className)} {...props} />
+);
+```
+
 - Use `cva` for component variants:
 
 ```tsx

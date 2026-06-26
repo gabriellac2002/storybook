@@ -3,15 +3,18 @@ import {
   Equipment,
   Operator,
   TabletEvent,
+  TabletPhase,
   TabletSession,
   TripEvent,
   StopEvent,
   ActiveStop,
   PcpGoals,
 } from './tabletTypes';
+import { findOperator } from '@/lib/data/operators';
+import { findEquipment as findEquipmentRecord } from '@/lib/data/equipments';
 
 // ── Re-export para conveniência dos consumidores ──────────────────────────────
-export type { Equipment, Operator, TabletEvent, TabletSession, TripEvent, StopEvent, ActiveStop, PcpGoals };
+export type { Equipment, Operator, TabletEvent, TabletSession, TripEvent, StopEvent, ActiveStop, PcpGoals, TabletPhase };
 
 // ── Store ─────────────────────────────────────────────────────────────────────
 
@@ -23,13 +26,13 @@ type TabletStore = {
   hourGoal: number;
   dailyGoal: number;
 
-  seed: (
-    equipment: Equipment,
-    session: Partial<TabletSession>,
-    goals: PcpGoals,
-    initialEvents?: TabletEvent[]
-  ) => void;
+  // fluxo de autenticação
+  login: (username: string, password: string) => 'ok' | 'invalid' | 'no-equipment';
+  bindEquipment: (id: string) => void;
+  completeChecklist: () => void;
+  completeHorimeter: (values: Record<string, number>) => void;
 
+  // operação
   registerTrip: (subtype: 'productive' | 'sterile') => void;
   cancelLastTrip: () => void;
   startStop: () => void;
@@ -37,6 +40,14 @@ type TabletStore = {
   endShift: () => void;
   logout: () => void;
   setTruckMode: (mode: 'producao' | 'demais') => void;
+
+  // seed (demo / storybook)
+  seed: (
+    equipment: Equipment,
+    session: Partial<TabletSession>,
+    goals: PcpGoals,
+    initialEvents?: TabletEvent[]
+  ) => void;
 };
 
 const DEFAULT_SESSION: TabletSession = {
@@ -46,6 +57,10 @@ const DEFAULT_SESSION: TabletSession = {
   horimeterLabel: '—',
   activeStop: null,
   truckMode: null,
+  adminNeedsBinding: false,
+  checklistDone: false,
+  initialHorimeter: null,
+  initialHorimeters: null,
 };
 
 export const useTabletStore = create<TabletStore>((set, get) => ({
@@ -55,6 +70,83 @@ export const useTabletStore = create<TabletStore>((set, get) => ({
   slotLabel: '—',
   hourGoal: 0,
   dailyGoal: 0,
+
+  // ── Fluxo de autenticação ──────────────────────────────────────────────────
+
+  login: (username, password) => {
+    const op = findOperator(username, password);
+    if (!op) return 'invalid';
+
+    const { session } = get();
+
+    // Admin sem equipamento vinculado → tela de vinculação
+    if (!session.boundEquipmentId) {
+      if (op.role !== 'admin') return 'no-equipment';
+      set(s => ({
+        session: { ...s.session, operator: { id: op.id, name: op.name, role: op.role }, adminNeedsBinding: true },
+      }));
+      return 'ok';
+    }
+
+    // Operador logado com equipamento vinculado → inicia turno
+    set(s => ({
+      session: {
+        ...s.session,
+        operator: { id: op.id, name: op.name, role: op.role },
+        shiftStart: new Date().toISOString(),
+        checklistDone: false,
+        initialHorimeter: null,
+        initialHorimeters: null,
+        activeStop: null,
+        adminNeedsBinding: false,
+      },
+      events: [],
+    }));
+    return 'ok';
+  },
+
+  bindEquipment: (id) => {
+    const record = findEquipmentRecord(id);
+    if (!record) return;
+    set(s => ({
+      equipment: {
+        id: record.id,
+        code: record.code,
+        name: record.name,
+        category: record.category,
+        kind: record.kind,
+        capacity: record.capacity,
+        lastHorimeter: record.lastHorimeter,
+        lastHorimeters: record.lastHorimeters,
+      },
+      session: {
+        ...DEFAULT_SESSION,
+        boundEquipmentId: id,
+      },
+      events: [],
+    }));
+  },
+
+  completeChecklist: () =>
+    set(s => ({ session: { ...s.session, checklistDone: true } })),
+
+  completeHorimeter: (values) => {
+    const keys = Object.keys(values);
+    const isMulti = keys.length > 1;
+    const label = isMulti
+      ? 'Múltiplos horímetros'
+      : `${Object.values(values)[0].toFixed(1)}h`;
+    set(s => ({
+      session: {
+        ...s.session,
+        initialHorimeter: isMulti ? null : (Object.values(values)[0] ?? null),
+        initialHorimeters: isMulti ? values : null,
+        horimeterLabel: label,
+      },
+    }));
+  },
+
+  // ── Operação ───────────────────────────────────────────────────────────────
 
   seed: (equipment, session, goals, initialEvents = []) =>
     set({
@@ -74,7 +166,7 @@ export const useTabletStore = create<TabletStore>((set, get) => ({
       type: 'trip',
       subtype,
       ts: new Date().toISOString(),
-      tons: equipment.capacity,
+      tons: equipment.capacity ?? 0,
       equipment: equipment.id,
       operator: session.operator.name,
     };
@@ -117,14 +209,15 @@ export const useTabletStore = create<TabletStore>((set, get) => ({
     }));
   },
 
-  endShift: () => set({ session: DEFAULT_SESSION, events: [] }),
+  endShift: () =>
+    set(s => ({
+      session: { ...DEFAULT_SESSION, boundEquipmentId: s.session.boundEquipmentId },
+      events: [],
+    })),
 
   logout: () =>
-    set(state => ({
-      session: {
-        ...DEFAULT_SESSION,
-        boundEquipmentId: state.session.boundEquipmentId,
-      },
+    set(s => ({
+      session: { ...DEFAULT_SESSION, boundEquipmentId: s.session.boundEquipmentId },
       events: [],
     })),
 
@@ -133,6 +226,18 @@ export const useTabletStore = create<TabletStore>((set, get) => ({
 }));
 
 // ── Selectors ─────────────────────────────────────────────────────────────────
+// Seletores que retornam array NÃO devem ser passados diretamente para useTabletStore:
+// filter() cria nova referência a cada chamada → Zustand detecta mudança → loop infinito.
+// Use inline: useTabletStore(s => selectX(s).length) ou useShallow(selectX).
+
+export const selectTabletPhase = (s: TabletStore): TabletPhase => {
+  const { session } = s;
+  if (session.adminNeedsBinding) return 'equipment';
+  if (!session.boundEquipmentId || !session.operator) return 'login';
+  if (!session.checklistDone) return 'checklist';
+  if (session.initialHorimeter == null && session.initialHorimeters == null) return 'horimeter';
+  return 'operational';
+};
 
 export const selectTripEvents = (s: TabletStore): TripEvent[] =>
   s.events.filter((e): e is TripEvent => e.type === 'trip');

@@ -1,6 +1,6 @@
 # Skill: extract-component
 
-Converte um trecho do `docs/parte_diaria_v46.html` em um componente React usando shadcn como base onde aplicável.
+Converte um trecho do `docs/parte_diaria_v46.html` em um componente React.
 
 ## Como invocar
 
@@ -17,24 +17,105 @@ Exemplos:
 
 ---
 
+## REGRA #1 — shadcn sempre primeiro
+
+**Antes de escrever qualquer elemento HTML nativo, verifique se há um componente shadcn em `components/ui/`.**
+
+### Componentes instalados (26 de junho 2026)
+
+```
+button         input          label          textarea       select
+card           badge          separator      tabs           switch
+avatar         alert          tooltip        dropdown-menu  dialog
+skeleton       progress       checkbox       radio-group    scroll-area
+sonner         table          popover        sheet          input-group
+command
+```
+
+### Mapeamento direto: necessidade → shadcn
+
+| Quando precisar de… | Use |
+|---|---|
+| Qualquer botão clicável | `Button` (`variant`: default, destructive, outline, ghost, link) |
+| Campo de texto/número | `Input` |
+| Label acessível vinculada a input | `Label` |
+| Área de texto longa | `Textarea` |
+| Dropdown de seleção | `Select` |
+| Toggle on/off | `Switch` |
+| Caixa de seleção | `Checkbox` |
+| Opções exclusivas | `RadioGroup` |
+| Container com cabeçalho | `Card` + `CardHeader` + `CardContent` |
+| Status chip / tag | `Badge` |
+| Modal / diálogo | `Dialog` + `DialogContent` + `DialogHeader` |
+| Painel deslizante lateral | `Sheet` |
+| Banner de aviso inline | `Alert` |
+| Tooltip de hover | `Tooltip` |
+| Menu de contexto / ações | `DropdownMenu` |
+| Placeholder de carregamento | `Skeleton` |
+| Barra de progresso determinada | `Progress` |
+| Área scrollável controlada | `ScrollArea` |
+| Menu ancorado em elemento | `Popover` |
+| Tabela de dados | `Table` + `TableHead` + `TableRow` + `TableCell` |
+| Lista pesquisável / combobox | `Command` |
+| Notificações toast | `Sonner` (`toast()`) |
+| Seções com abas | `Tabs` |
+| Linha divisória | `Separator` |
+| Foto/iniciais de usuário | `Avatar` |
+| Input com prefixo/sufixo | `InputGroup` |
+
+### Como personalizar sem editar `components/ui/`
+
+Passe `className` para sobrescrever estilos. shadcn usa `cn()` internamente, então as classes adicionais sempre ganham:
+
+```tsx
+// Botão de produção grande do tablet — usa Button com override agressivo
+<Button
+  onClick={onPress}
+  disabled={isDisabled}
+  className="h-full w-full flex-col gap-2 rounded-2xl text-3xl font-black bg-op-green hover:bg-op-green-dark shadow-xl shadow-op-green/30"
+>
+  <PetraIcon name="dump" size={56} />
+  BASCULAMENTO
+</Button>
+
+// Input do horímetro — usa Input com estilo grande
+<Input
+  type="number"
+  className="h-auto border-2 border-tablet-border bg-tablet-bg py-4 text-center font-display text-3xl text-petra-yellow"
+/>
+
+// Badge de status colorido
+<Badge className="bg-op-green/10 text-op-green border-op-green/20">
+  APTO
+</Badge>
+```
+
+### Quando NÃO usar shadcn
+
+Apenas elementos sem componente equivalente: `div`, `span`, `p`, `section`, `ul/li` — ou seja, puramente de display sem interação.
+
+**Todo elemento interativo (botão, input, select, checkbox, modal, etc.) usa shadcn, sem exceção.** `Button` aceita qualquer `className`, inclusive `h-full flex-col gap-2 text-3xl` — não há motivo para usar `<button>` nativo.
+
+---
+
 ## O que este skill faz
 
 1. Lê o trecho indicado em `docs/parte_diaria_v46.html`
-2. Lê `docs/ARQUITETURA.md` para contexto de domínio se necessário
-3. Identifica: props, variantes, estado local, handlers
-4. Escolhe a pasta correta (ver estrutura abaixo)
-5. Cria o componente React em `src/components/<feature>/<Nome>.tsx` usando shadcn onde aplicável
+2. Identifica: props, variantes, estado local, handlers
+3. Escolhe a pasta correta (ver estrutura abaixo)
+4. **Seleciona os componentes shadcn adequados** para cada elemento
+5. Cria o componente React em `components/<feature>/<Nome>.tsx`
 6. Marca o HTML com comentário `[EXTRACTED: ...]`
-7. Sugere os próximos passos (criar story via `/create-story`)
+7. Cria a story via `/create-story` ou sugere o comando
 
 ---
 
 ## Estrutura de pastas
 
 ```
-src/components/
+components/
   petra/        # Primitivos do design system (PetraIcon, StatusDot, StatChip)
-  tablet/       # UI do operador de campo (TabletButton, ChecklistItem, HorimeterInput)
+  tablet/       # UI do operador de campo (ChecklistItem, HorimeterInput, OpHeader)
   management/   # UI do painel gerencial (KpiCard, FleetCard, EventFeed)
   modals/       # Modais (StopModal, AlertModal, FinalizeShiftModal...)
 ```
@@ -50,65 +131,27 @@ src/components/
 
 ---
 
-## Como usar shadcn como base
-
-shadcn está instalado em `src/components/ui/`. Importe e estilize por cima:
-
-```tsx
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-
-// Aplique classes Petra sobre o shadcn:
-<Button
-  className="min-h-[80px] text-xl font-display bg-petra-blue text-white hover:bg-petra-blue-dark"
->
-  VIAGEM PRODUTIVA
-</Button>
-```
-
-### Mapa de conversão HTML → shadcn
-
-| CSS/HTML original | shadcn + classes Petra |
-|---|---|
-| `<button class="tablet-btn ...">` | `<Button className="min-h-[80px] text-xl ...">` |
-| `<button class="tablet-btn-lg ...">` | `<Button className="min-h-[110px] text-2xl ...">` |
-| `<button class="tablet-btn-xl ...">` | `<Button className="min-h-[140px] text-3xl ...">` |
-| Card com borda `mgmt-card` | `<Card className="border border-gray-200">` |
-| Badge de status | `<Badge variant="outline" className="...">` |
-| `<input class="...">` | `<Input className="...">` |
-| Modal overlay | `<Dialog>` + `<DialogContent>` |
-| Toast (`toast()`) | Sonner (`toast()`) ou componente Toast |
-
-### Quando NÃO usar shadcn
-
-- Botões do tablet com layout de ícone grande em cima + label embaixo → JSX customizado (shadcn Button não suporta bem esse layout)
-- `.stat-chip` (pequeno chip de stats dentro de modal) → div simples com Tailwind
-- Elementos puramente de display sem interação → HTML/JSX direto
-
----
-
 ## Padrão de componente — seguir docs/FRONTEND.md
-
-**Leia `docs/FRONTEND.md` antes de criar qualquer componente.** Resumo das regras que se aplicam à conversão:
 
 ```tsx
 // Referência: docs/parte_diaria_v46.html linha <N> — <NomeFunçãoOriginal>()
-// [Descrição do que o componente faz no sistema]
+// [EXTRACTED: NomeDoComponente]
 
-import { cn } from '@/lib/utils'
-import { cva } from 'class-variance-authority'  // se tiver variantes
-import { Button } from '@/components/ui/button'  // se usar shadcn
-import { PetraIcon, IconName } from '@/components/petra/PetraIcon'  // se usar ícone
+import { cn } from '@/lib/utils';
+import { cva } from 'class-variance-authority';   // se tiver variantes
+import { Button }   from '@/components/ui/button'; // shadcn primeiro
+import { Input }    from '@/components/ui/input';
+import { Label }    from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
+import { PetraIcon, IconName } from '@/components/petra/PetraIcon';
 
 export type <Nome>Props = {
-  className?: string;   // SEMPRE incluir — o caller precisa poder sobrescrever
-  // ... demais props tipadas (sem any)
+  className?: string;  // SEMPRE incluir
+  // demais props (sem any)
 };
 
 export const <Nome>: React.FC<<Nome>Props> = ({ className, ... }) => {
-  // Handlers dentro do componente → arrow functions
-  const handleClick = () => { ... };
+  const handleClick = () => { ... };  // handlers → arrow functions
 
   return (
     <div className={cn('...classes-base...', className)}>
@@ -118,7 +161,7 @@ export const <Nome>: React.FC<<Nome>Props> = ({ className, ... }) => {
 };
 ```
 
-### Regras críticas do padrão
+### Regras críticas
 
 | Regra | Correto | Errado |
 |---|---|---|
@@ -128,12 +171,11 @@ export const <Nome>: React.FC<<Nome>Props> = ({ className, ... }) => {
 | Handlers | `const handleX = () => {}` | `function handleX() {}` |
 | Tipos import | `import { IconName }` | `import type { IconName }` |
 | Variantes | `cva(...)` | if/else de className |
+| Shadcn | `<Button>`, `<Input>`, etc. | `<button>`, `<input>` nativos |
 
 ### `'use client'`
 
-**Boundary components apenas** — views e context providers.
-
-Componentes individuais **não** precisam de `'use client'` se estão dentro de uma view que já o declara. Só adicionar se o componente for consumido diretamente por um Server Component E usar estado/eventos.
+**Boundary components apenas** — views e context providers. Componentes individuais NÃO precisam de `'use client'` se estão dentro de uma view que já o declara.
 
 ---
 
@@ -146,6 +188,12 @@ Componentes individuais **não** precisam de `'use client'` se estão dentro de 
 | `style="color:red"` | `style={{ color: 'red' }}` |
 | Template literal `${expr}` | `{expr}` em JSX |
 | `icon('truck', 32)` | `<PetraIcon name="truck" size={32} />` |
+| `<button class="tablet-btn ...">` | `<Button className="...">` |
+| `<input class="...">` | `<Input className="...">` |
+| `<input type="checkbox">` | `<Checkbox />` |
+| Modal overlay | `<Dialog><DialogContent>` |
+| Toast (`toast()`) | `toast()` do Sonner |
+| Barra de progresso | `<Progress value={pct} />` |
 | Condicional `x ? a : b` | `{x ? a : b}` em JSX |
 | Loop `arr.map(...)` | `{arr.map(...)}` em JSX |
 
@@ -168,14 +216,10 @@ Fontes:    font-display (Archivo), font-mono (JetBrains Mono)
 
 ## Marcação de rastreamento no HTML
 
-Após criar o componente, adicionar **logo antes** do trecho convertido:
+Adicionar **logo antes** do trecho convertido:
 
 ```html
-<!-- [EXTRACTED: ComponentName]
-     Componente: src/components/<feature>/ComponentName.tsx
-     Story: stories/<feature>/ComponentName.stories.tsx
-     Data: YYYY-MM-DD
--->
+// [EXTRACTED: ComponentName]
 ```
 
 Ver progresso: `/conversion-progress`
@@ -186,10 +230,10 @@ Ver progresso: `/conversion-progress`
 
 - [ ] Componente compila sem erros TypeScript
 - [ ] Props tipadas (sem `any`)
-- [ ] `'use client'` correto (presente se necessário, ausente se não for)
-- [ ] shadcn usado como base onde faz sentido
+- [ ] shadcn usado para todos os elementos interativos (Button, Input, Label, etc.)
+- [ ] `'use client'` correto (ausente na maioria dos componentes)
 - [ ] Comentário `[EXTRACTED]` adicionado no HTML
-- [ ] Sugeriu `/create-story <NomeDoComponente>` como próximo passo
+- [ ] Story criada ou `/create-story <Nome>` sugerido como próximo passo
 
 ---
 
@@ -198,6 +242,17 @@ Ver progresso: `/conversion-progress`
 | Componente | Pasta | Linha no HTML |
 |---|---|---|
 | `PetraIcon` | `petra/` | 350–411 |
-| `StatusDot` | `petra/` | CSS linhas 53–55 |
-| `TabletButton` | `tablet/` | CSS linhas 50–52 |
+| `StatusDot` | `petra/` | CSS 53–55 |
+| `OpHeader` | `tablet/` | 1270–1298 |
+| `ActiveStopBanner` | `tablet/` | 1312–1325 |
+| `TurnoInfoBar` | `tablet/` | 1406–1448 |
+| `OpActionsPanel` | `tablet/` | 1453–1482 |
+| `StopButton` | `tablet/` | inline |
+| `TruckCountersPanel` | `tablet/` | 1557–1598 |
+| `TruckProductionButtons` | `tablet/` | 1526–1551 |
+| `OpControlsColumn` | `tablet/` | 1634–1648 |
+| `ChecklistProgressHeader` | `tablet/` | 906–920 |
+| `ChecklistItem` | `tablet/` | 944–1001 |
+| `HorimeterInput` | `tablet/` | 1150–1168 |
 | `KpiCard` | `management/` | ~3950+ |
+| `FleetCard` | `management/` | 4186–4213 |

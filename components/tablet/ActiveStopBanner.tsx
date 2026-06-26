@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 import { PetraIcon } from '@/components/petra/PetraIcon';
 import { fmtDuration, fmtTimeShort } from '@/lib/format';
 
@@ -27,11 +28,11 @@ export const ActiveStopBanner: React.FC<ActiveStopBannerProps> = ({
   }, [startTs]);
 
   return (
-    <button
-      type="button"
+    <Button
+      variant="ghost"
       onClick={onClick}
       className={cn(
-        'mb-4 flex w-full cursor-pointer items-center gap-4 rounded-xl border-2 border-op-orange bg-op-orange/15 p-4 text-left transition hover:bg-op-orange/25 active:scale-[0.99]',
+        'mb-4 h-auto w-full cursor-pointer items-center gap-4 rounded-xl border-2 border-op-orange bg-op-orange/15 p-4 text-left whitespace-normal hover:bg-op-orange/25 active:scale-[0.99]',
         className
       )}
     >
@@ -45,6 +46,6 @@ export const ActiveStopBanner: React.FC<ActiveStopBannerProps> = ({
       <div className="font-mono text-2xl font-bold tabular-nums text-op-orange flex-shrink-0">
         {fmtDuration(elapsedMs)}
       </div>
-    </button>
+    </Button>
   );
 };

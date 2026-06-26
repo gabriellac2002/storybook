@@ -3,32 +3,33 @@
 // Esquerda inferior: ENTRADA ESTOQUE + botão de PARADA.
 
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 import { PetraIcon } from '@/components/petra/PetraIcon';
 import { StopButton } from '@/components/tablet/StopButton';
 import { useTabletStore } from '@/lib/store/tabletStore';
 
 export type OpControlsColumnProps = {
   className?: string;
-  onStockIn?: () => void; // abre modal de entrada de estoque (implementar com modais)
+  onStockIn?: () => void;
 };
 
 export const OpControlsColumn: React.FC<OpControlsColumnProps> = ({ className, onStockIn }) => {
   const activeStop = useTabletStore(s => s.session.activeStop);
-  const startStop = useTabletStore(s => s.startStop);
-  const endStop = useTabletStore(s => s.endStop);
+  const startStop  = useTabletStore(s => s.startStop);
+  const endStop    = useTabletStore(s => s.endStop);
 
   const handleStopPress = () => (activeStop ? endStop() : startStop());
 
   return (
     <div className={cn('flex min-h-0 flex-col gap-2', className)}>
-      <button
-        type="button"
+      <Button
+        variant="ghost"
         onClick={onStockIn}
-        className="flex flex-1 flex-col items-center justify-center gap-2 rounded-xl border border-tablet-border bg-tablet-surface-2 font-bold transition hover:bg-tablet-surface-3 active:scale-[0.98]"
+        className="flex-1 h-full w-full flex-col items-center justify-center gap-2 rounded-xl border border-tablet-border bg-tablet-surface-2 whitespace-normal hover:bg-tablet-surface-3 active:scale-[0.98]"
       >
         <PetraIcon name="inbound" size={30} className="text-tablet-text-dim" />
         <span className="text-sm font-black tracking-wide text-tablet-text">ENTRADA ESTOQUE</span>
-      </button>
+      </Button>
 
       <StopButton
         className="flex-1"

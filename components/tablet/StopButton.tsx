@@ -4,6 +4,7 @@
 
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 import { PetraIcon } from '@/components/petra/PetraIcon';
 import { fmtDuration } from '@/lib/format';
 
@@ -31,14 +32,14 @@ export const StopButton: React.FC<StopButtonProps> = ({
   }, [isActive, startTs]);
 
   return (
-    <button
-      type="button"
+    <Button
+      variant="ghost"
       onClick={onClick}
       className={cn(
-        'flex flex-1 flex-col items-center justify-center gap-1 rounded-xl font-black transition active:scale-[0.98]',
+        'flex-1 h-full w-full flex-col items-center justify-center gap-1 rounded-xl font-black whitespace-normal transition active:scale-[0.98]',
         isActive
-          ? 'animate-pulse bg-op-orange ring-2 ring-op-orange/40'
-          : 'bg-op-orange hover:bg-op-orange-dark',
+          ? 'animate-pulse bg-op-orange text-white hover:bg-op-orange ring-2 ring-op-orange/40'
+          : 'bg-op-orange text-white hover:bg-op-orange-dark',
         className
       )}
     >
@@ -51,6 +52,6 @@ export const StopButton: React.FC<StopButtonProps> = ({
           {fmtDuration(elapsedMs)}
         </span>
       )}
-    </button>
+    </Button>
   );
 };

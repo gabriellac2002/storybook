@@ -4,6 +4,7 @@
 
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 import { PetraIcon, IconName } from '@/components/petra/PetraIcon';
 
 export type OpHeaderProps = {
@@ -73,15 +74,16 @@ export const OpHeader: React.FC<OpHeaderProps> = ({
             HORA LOCAL
           </div>
         </div>
-        <button
-          type="button"
+        <Button
+          variant="ghost"
+          size="icon-lg"
           onClick={onLogout}
           title="Trocar operador"
           aria-label="Trocar operador (logout)"
-          className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl border border-tablet-border bg-tablet-surface-2 transition hover:bg-tablet-surface-3 active:scale-95"
+          className="rounded-xl border border-tablet-border bg-tablet-surface-2 hover:bg-tablet-surface-3 active:scale-95"
         >
           <PetraIcon name="user" size={22} />
-        </button>
+        </Button>
       </div>
     </div>
   );

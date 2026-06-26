@@ -1,3 +1,5 @@
+export type TabletPhase = 'login' | 'equipment' | 'checklist' | 'horimeter' | 'operational';
+
 export type Operator = {
   id: string;
   name: string;
@@ -7,8 +9,12 @@ export type Operator = {
 export type Equipment = {
   id: string;
   code: string;
+  name: string;
+  category: string;
   kind: string; // corresponde a IconName em PetraIcon
-  capacity: number; // toneladas por viagem
+  capacity?: number; // toneladas/m³ por viagem
+  lastHorimeter?: number;
+  lastHorimeters?: Record<string, number>;
 };
 
 export type TripEvent = {
@@ -42,6 +48,11 @@ export type TabletSession = {
   horimeterLabel: string;
   activeStop: ActiveStop | null;
   truckMode: 'producao' | 'demais' | null;
+  // fluxo pré-operação
+  adminNeedsBinding: boolean;
+  checklistDone: boolean;
+  initialHorimeter: number | null;
+  initialHorimeters: Record<string, number> | null;
 };
 
 export type PcpGoals = {

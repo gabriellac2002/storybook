@@ -3,6 +3,7 @@
 // Referência: docs/parte_diaria_v46.html linhas 1499–1657 — renderTruckOps()
 
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 import { IconName } from '@/components/petra/PetraIcon';
 import { OpHeader } from '@/components/tablet/OpHeader';
 import { TurnoInfoBar } from '@/components/tablet/TurnoInfoBar';
@@ -20,6 +21,8 @@ import {
   selectLastTrip,
   selectHourTrips,
 } from '@/lib/store/tabletStore';
+// selectProductiveTrips / selectSterileTrips usados inline com .length para evitar re-render em loop
+// (seletores que retornam array criam nova referência a cada render no Zustand)
 
 export type TruckOpsViewProps = {
   className?: string;
@@ -32,13 +35,13 @@ export const TruckOpsView: React.FC<TruckOpsViewProps> = ({ className }) => {
   const hourGoal  = useTabletStore(s => s.hourGoal);
   const dailyGoal = useTabletStore(s => s.dailyGoal);
 
-  const productive    = useTabletStore(selectProductiveTrips);
-  const sterile       = useTabletStore(selectSterileTrips);
-  const totalTons     = useTabletStore(selectTotalTons);
-  const stopCount     = useTabletStore(s => selectStopEvents(s).length);
-  const stopDurationMs = useTabletStore(selectStopDurationMs);
-  const lastTrip      = useTabletStore(selectLastTrip);
-  const hourTrips     = useTabletStore(selectHourTrips);
+  const productiveCount = useTabletStore(s => selectProductiveTrips(s).length);
+  const sterileCount    = useTabletStore(s => selectSterileTrips(s).length);
+  const totalTons       = useTabletStore(selectTotalTons);
+  const stopCount       = useTabletStore(s => selectStopEvents(s).length);
+  const stopDurationMs  = useTabletStore(selectStopDurationMs);
+  const lastTrip        = useTabletStore(selectLastTrip);
+  const hourTrips       = useTabletStore(selectHourTrips);
 
   const cancelLastTrip = useTabletStore(s => s.cancelLastTrip);
   const endShift       = useTabletStore(s => s.endShift);
@@ -70,19 +73,19 @@ export const TruckOpsView: React.FC<TruckOpsViewProps> = ({ className }) => {
             slotLabel={slotLabel}
             hourTrips={hourTrips}
             hourGoal={hourGoal}
-            productiveTrips={productive.length}
+            productiveTrips={productiveCount}
             dailyGoal={dailyGoal}
             totalTons={totalTons}
-            sterileTrips={sterile.length}
+            sterileTrips={sterileCount}
           />
 
-          <button
-            type="button"
+          <Button
+            variant="ghost"
             onClick={cancelLastTrip}
             disabled={!lastTrip}
             aria-label="Cancelar última viagem registrada"
             className={cn(
-              'flex flex-shrink-0 flex-col items-center justify-center gap-1 rounded-xl transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-30',
+              'flex-shrink-0 w-full flex-col items-center justify-center gap-1 rounded-xl whitespace-normal transition active:scale-[0.98]',
               lastTrip
                 ? 'border-2 border-dashed border-tablet-border-light bg-tablet-surface-2 text-tablet-text-dim hover:bg-tablet-surface-3 hover:text-white'
                 : 'border border-tablet-border bg-tablet-surface text-tablet-text-muted'
@@ -101,7 +104,7 @@ export const TruckOpsView: React.FC<TruckOpsViewProps> = ({ className }) => {
             ) : (
               <span className="font-display text-xs text-tablet-text-muted">Nenhum registro</span>
             )}
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -118,13 +121,13 @@ export const TruckOpsView: React.FC<TruckOpsViewProps> = ({ className }) => {
               · justificativa de viagem não obrigatória
             </span>
           </div>
-          <button
-            type="button"
+          <Button
+            variant="ghost"
             onClick={() => setTruckMode('producao')}
-            className="flex-shrink-0 rounded-lg border border-tablet-border px-2.5 py-1 text-xs font-bold text-tablet-text-dim transition hover:text-petra-yellow active:scale-95"
+            className="flex-shrink-0 rounded-lg border border-tablet-border px-2.5 py-1 text-xs font-bold text-tablet-text-dim hover:text-petra-yellow active:scale-95"
           >
             Trocar modo →
-          </button>
+          </Button>
         </div>
       )}
 

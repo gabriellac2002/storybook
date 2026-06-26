@@ -3,10 +3,9 @@
 // Dimensões mínimas grandes para uso com luva (80/110/140 px de altura).
 // Usa shadcn Button internamente mas com layout e tamanhos customizados.
 
-'use client'
-
 import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 import { PetraIcon, IconName } from '@/components/petra/PetraIcon';
 
 const tabletButtonVariants = cva(
@@ -62,8 +61,8 @@ export const TabletButton: React.FC<TabletButtonProps> = ({
   };
 
   return (
-    <button
-      type="button"
+    <Button
+      variant="ghost"
       disabled={disabled}
       onClick={handleClick}
       className={cn(tabletButtonVariants({ size, variant }), className)}
@@ -75,6 +74,6 @@ export const TabletButton: React.FC<TabletButtonProps> = ({
           {sublabel}
         </span>
       )}
-    </button>
+    </Button>
   );
 };

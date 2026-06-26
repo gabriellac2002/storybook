@@ -11,3 +11,12 @@ export function fmtDuration(ms: number): string {
 export function fmtTimeShort(ts: string): string {
   return new Date(ts).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 }
+
+export function fmtDurationShort(ms: number): string {
+  const s = Math.floor(ms / 1000);
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  if (h > 0) return `${h}h ${pad(m)}min`;
+  if (m > 0) return `${m}min`;
+  return '<1min';
+}

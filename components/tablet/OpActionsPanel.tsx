@@ -3,6 +3,7 @@
 // Esquerda: 3 botões de observação. Direita: botão "Encerrar Turno" (azul Petra).
 
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 import { PetraIcon } from '@/components/petra/PetraIcon';
 
 export type OpActionsPanelProps = {
@@ -43,11 +44,11 @@ export const OpActionsPanel: React.FC<OpActionsPanelProps> = ({
         />
       </div>
 
-      <button
-        type="button"
+      <Button
+        variant="ghost"
         onClick={onEndShift}
         aria-label="Encerrar turno de operação"
-        className="flex flex-1 flex-col items-center justify-center gap-3 rounded-xl bg-petra-blue font-black shadow-lg shadow-petra-blue/30 transition hover:bg-petra-blue-light active:scale-[0.98]"
+        className="flex flex-1 h-full w-full flex-col items-center justify-center gap-3 rounded-xl bg-petra-blue text-white font-black whitespace-normal shadow-lg shadow-petra-blue/30 hover:bg-petra-blue-light active:scale-[0.98]"
       >
         <PetraIcon name="flag" size={44} />
         <div className="font-display text-xl leading-tight text-center px-1">
@@ -55,7 +56,7 @@ export const OpActionsPanel: React.FC<OpActionsPanelProps> = ({
           <br />
           TURNO
         </div>
-      </button>
+      </Button>
     </div>
   );
 };
@@ -68,15 +69,15 @@ type ObsButtonProps = {
 };
 
 const ObsButton: React.FC<ObsButtonProps> = ({ label, icon, onClick, 'aria-label': ariaLabel }) => (
-  <button
-    type="button"
+  <Button
+    variant="ghost"
     onClick={onClick}
     aria-label={ariaLabel}
-    className="flex min-h-[64px] flex-1 flex-col items-center justify-center gap-1.5 rounded-xl border border-tablet-border bg-tablet-surface-2 transition hover:bg-tablet-surface-3 active:scale-[0.98]"
+    className="flex-1 h-full w-full min-h-[64px] flex-col items-center justify-center gap-1.5 rounded-xl border border-tablet-border bg-tablet-surface-2 whitespace-normal hover:bg-tablet-surface-3 active:scale-[0.98]"
   >
     {icon}
     <span className="font-display text-sm font-black tracking-wider text-tablet-text-dim">
       {label}
     </span>
-  </button>
+  </Button>
 );

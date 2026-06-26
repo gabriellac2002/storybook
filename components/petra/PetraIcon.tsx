@@ -2,6 +2,8 @@
 // SVG inline com currentColor: herda a cor do elemento pai, nítido em qualquer DPI.
 // Usage: <PetraIcon name="truck" size={32} className="text-petra-blue" />
 
+import { cn } from '@/lib/utils';
+
 const ICON_PATHS = {
   truck:      '<path d="M2 17V8a1 1 0 0 1 1-1h10v10H2Z"/><path d="M13 10h4l3 3v4h-7v-7Z"/><circle cx="6" cy="18" r="2"/><circle cx="16.5" cy="18" r="2"/><path d="M2 13h11"/>',
   loader:     '<path d="M3 18h6v-3H3v3Z"/><circle cx="5" cy="20" r="1.6"/><circle cx="9" cy="20" r="1.6"/><path d="M9 16l4-2 1.5-4"/><path d="M14.5 10l5-2 1.5 1-1 4-5 1"/><path d="M9 13l3 1"/>',
@@ -69,8 +71,6 @@ export type PetraIconProps = {
 export const PetraIcon: React.FC<PetraIconProps> = ({ name, size = 24, className }) => {
   return (
     <svg
-      width={size}
-      height={size}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -78,8 +78,8 @@ export const PetraIcon: React.FC<PetraIconProps> = ({ name, size = 24, className
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
-      className={className}
-      style={{ display: 'inline-block', verticalAlign: 'middle', flexShrink: 0 }}
+      className={cn('shrink-0 inline-block align-middle', className)}
+      style={{ width: size, height: size, flexShrink: 0 }}
       dangerouslySetInnerHTML={{ __html: ICON_PATHS[name] }}
     />
   );

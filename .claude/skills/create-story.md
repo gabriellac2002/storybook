@@ -33,7 +33,7 @@ Exemplos:
 
 ```tsx
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { ComponentName } from '../../src/components/<feature>/ComponentName'
+import { ComponentName } from '@/components/<feature>/ComponentName'
 
 const meta = {
   title: '<Feature>/ComponentName',
